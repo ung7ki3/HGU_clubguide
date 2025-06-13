@@ -1,51 +1,141 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>index</title>
-    <style>
-        header{
-            padding-top: 200px;
-            padding-bottom:10px;
-        }
-        body{
-            background: linear-gradient(-90deg, #240d94e8, #F04146, #D8226D, #eeeeee);
-            background-size: 350% 350%;
-            animation: moveBg 15s ease infinite;
-        }
-        @keyframes moveBg {
-    0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-    </style>
-    <link type="text/css" rel="stylesheet" href="css/main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>동아리 길라잡이</title>
+  <link href="https://fonts.googleapis.com/css2?family=SUITE:wght@600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'SUITE', sans-serif;
+      color: white;
+      background: linear-gradient(-45deg, #0a1a2f, #1f4068, #4b79a1, #0a1a2f);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 60px 20px;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      font-size: 64px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .subtitle {
+      font-size: 20px;
+      margin-bottom: 60px;
+      color: rgba(255, 255, 255, 0.85);
+      text-align: center;
+    }
+
+    .path-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    /* 수평선 */
+    .horizontal-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 8px;
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-50%);
+      z-index: 0;
+      border-radius: 4px;
+    }
+
+    .club-box {
+      background-color: white;
+      color: #0a1a2f;
+      width: 260px;
+      padding: 40px 30px;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 1;
+      text-decoration: none;
+    }
+
+    .arrow {
+      display: block;
+      font-size: 30px;
+      margin-top: 15px;
+      color: #0a1a2f;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 48px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .club-box {
+        width: 200px;
+        font-size: 20px;
+        padding: 30px 20px;
+      }
+
+      .arrow {
+        font-size: 24px;
+      }
+
+      .horizontal-line {
+        height: 4px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1 id="title"><a href="index.html" target=_self>한동 동아리 <span>길라잡이</span></a></h1>
-    
-    </header>
-    <nav>
-        <a class="lg" href="index.html" target="_self"><img id="logo" src="others/logo2.png"></a>
-        <a href="Big category/clubs/문화예술.html" target=_self>동아리</a>
-        <a href="Big category/institutes.html" target=_self>학회/학술</a>
-        <a href="Big category/Spiritual Communities.html" target=_self>신앙공동체</a>
-        <a href="Big category/hobby groups.html" target=_self>동호회</a>
-        <a href="Big category/more.html" target=_self>more</a>
-    </nav>
-    <main width="100%" height="100%" >
-    </main>
-    <script>
-        
-    </script>
+  <h1>동아리 길라잡이</h1>
+  <div class="subtitle">어디로 안내해드릴까요? 찾아볼 카테고리를 선택해주세요</div>
+
+  <div class="path-wrapper">
+    <!-- 가운데 가로선 -->
+    <div class="horizontal-line"></div>
+
+    <!-- 박스들 -->
+    <a href="#" class="club-box">
+      동아리 <span class="arrow">↓</span>
+    </a>
+    <a href="#" class="club-box">
+      학회 <span class="arrow">↓</span>
+    </a>
+    <a href="#" class="club-box">
+      신앙공동체 <span class="arrow">↓</span>
+    </a>
+    <a href="#" class="club-box">
+      동호회 <span class="arrow">↓</span>
+    </a>
+  </div>
 </body>
 </html>
