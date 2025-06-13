@@ -53,7 +53,7 @@
         }
         nav{
             padding: 4px 10px;
-            background-color: #240d94e8;
+            background-color: #1f4068;
             display: flex;
             justify-content: center;
             align-content: center;
@@ -154,10 +154,10 @@
   margin-top: 9px;
   margin-bottom: 9px;
 
-  background-color: #dbdaff;
+  background-color: #4b79a1;
 }
 #smallfocus{
-    background-color: #f58cb8;
+    background-color: #d8226e4f;
 }
 /* @media only screen (min-width:493px) and (max-width:846)
     {
