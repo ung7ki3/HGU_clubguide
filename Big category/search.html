@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  }
+  @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+  }
+
+/* 전체 컨테이너: 좌우 중앙, 상단 정렬 */
+.search-page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* 좌우 중앙 */
+  padding-top: 80px;     /* 상단 여백 */
+    background: linear-gradient(-45deg, #0a1a2f, #1f4068, #4b79a1, #0a1a2f);
+  background-size: 400% 400%;
+  animation: gradientBG 12s ease infinite;
+}
+
+/* 검색 폼 스타일 */
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  padding: 24px 32px;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  margin-bottom: 40px;
+}
+
+/* 검색 입력창 스타일 */
+.search-form input[type="text"] {
+  width: 320px;
+  font-size: 1.15rem;
+  padding: 12px 18px;
+  border: 1.5px solid #e0e7ef;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.2s;
+  background: #f9fbfd;
+}
+
+.search-form input[type="text"]:focus {
+  border: 1.5px solid #0080ff;
+  background: #fff;
+}
+
+/* 검색 버튼 스타일 */
+.search-form button {
+  padding: 12px 28px;
+  font-size: 1.05rem;
+  background: #0080ff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.search-form button:hover {
+  background: #005bb5;
+}
+
+/* 검색 결과 카드 영역 */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  max-width: 900px;
+}
+    </style>   
+    <link type="text/css" rel="stylesheet" href="../css/main.css">
+    
+</head>
+    
+<body>
+    <nav>
+        <a class="lg" href="../index.html" target="_self"><img id="logo" src="../others/logo2.png"></a>
+        <a id="focus" href="search.html" target=_self>🔎검색</a>
+        <a href="clubs/문화예술.html" target=_self>동아리</a>
+        <a href="institutes.html" target=_self>학회/학술</a>
+        <a href="Spiritual Communities.html" target=_self>신앙공동체</a>
+        <a href="hobby groups.html" target=_self>동호회</a>
+        <a href="more.html" target=_self>more</a>
+    </nav>
+
+<div class="search-page-container">
+    <form class="search-form" onsubmit="event.preventDefault(); searchClubs();">
+      <input type="text" id="searchInput" placeholder="동아리 이름을 검색하세요">
+      <button type="submit">🔎</button>
+    </form>
+    <div class="cards" id="searchResults"></div>
+  </div>
+
+
+<script>
+    // 예시 데이터
+    const clubs = [
+{ name: "Mnt", img: "../others/logo2.png", detail: "../particular/more/Mnt.html" },
+{ name: "학생선교위원회,학선위", img: "../others/logo2.png", detail: "../particular/more/학선위.html" },
+{ name: "한동중보위원회,한통위", img: "../others/logo2.png", detail: "../particular/more/한통위.html" },
+      
+{ name: "Canvas,캔버스", img: "../others/logo2.png", detail: "../particular/동아리/Canvas.html" },
+{ name: "CRA,크라", img: "../others/logo2.png", detail: "../particular/동아리/CRA.html" },
+{ name: "H.milan,밀란", img: "../others/logo2.png", detail: "../particular/동아리/H.milan.html" },
+{ name: "HAC", img: "../others/logo2.png", detail: "../particular/동아리/HAC.html" },
+{ name: "Holy Rams,홀리램스", img: "../others/logo2.png", detail: "../particular/동아리/Holy Rams.html" },
+{ name: "LAMP,램프", img: "../others/logo2.png", detail: "../particular/동아리/LAMP.html" },
+{ name: "MIC", img: "../others/logo2.png", detail: "../particular/동아리/mic.html" },
+{ name: "Sweep,스윕", img: "../others/logo2.png", detail: "../particular/동아리/Sweep.html" },
+{ name: "VAM,뱀", img: "../others/logo2.png", detail: "../particular/동아리/VAM.html" },
+{ name: "갓스펠로우,갓펠", img: "../others/logo2.png", detail: "../particular/동아리/갓펠.html" },
+{ name: "고스트", img: "../others/logo2.png", detail: "../particular/동아리/고스트.html" },
+{ name: "그랜드슬램", img: "../others/logo2.png", detail: "../particular/동아리/그랜드슬램.html" },
+{ name: "꾼들", img: "../others/logo2.png", detail: "../particular/동아리/꾼들.html" },
+{ name: "네오,NEO", img: "../others/logo2.png", detail: "../particular/동아리/네오.html" },
+{ name: "덜지니어스", img: "../others/logo2.png", detail: "../particular/동아리/덜지니어스.html" },
+{ name: "두나미스", img: "../others/logo2.png", detail: "../particular/동아리/두나미스.html" },
+{ name: "레버리", img: "../others/logo2.png", detail: "../particular/동아리/레버리.html" },
+{ name: "리눅스해커스", img: "../others/logo2.png", detail: "../particular/동아리/리눅스해커스.html" },
+{ name: "리퀴드", img: "../others/logo2.png", detail: "../particular/동아리/리퀴드.html" },
+{ name: "미르", img: "../others/logo2.png", detail: "../particular/동아리/미르.html" },
+{ name: "삼손", img: "../others/logo2.png", detail: "../particular/동아리/삼손.html" },
+{ name: "소울", img: "../others/logo2.png", detail: "../particular/동아리/소울.html" },
+{ name: "슬기짜기", img: "../others/logo2.png", detail: "../particular/동아리/슬기짜기.html" },
+{ name: "어메이징스토리,어스", img: "../others/logo2.png", detail: "../particular/동아리/어메이징스토리.html" },
+{ name: "어미션", img: "../others/logo2.png", detail: "../particular/동아리/어미션.html" },
+{ name: "오케스트라", img: "../others/logo2.png", detail: "../particular/동아리/오케스트라.html" },
+{ name: "응원단", img: "../others/logo2.png", detail: "../particular/동아리/응원단.html" },
+{ name: "즉흥적새벽두시", img: "../others/logo2.png", detail: "../particular/동아리/즉흥적새벽두시.html" },
+{ name: "지오", img: "../others/logo2.png", detail: "../particular/동아리/지오.html" },
+{ name: "지지", img: "../others/logo2.png", detail: "../particular/동아리/지지.html" },
+{ name: "차요차요", img: "../others/logo2.png", detail: "../particular/동아리/차요차요.html" },
+{ name: "천풍해세", img: "../others/logo2.png", detail: "../particular/동아리/천풍해세.html" },
+{ name: "청소년자유학교", img: "../others/logo2.png", detail: "../particular/동아리/청소년자유학교.html" },
+{ name: "팔레트", img: "../others/logo2.png", detail: "../particular/동아리/팔레트.html" },
+{ name: "피스메이커", img: "../others/logo2.png", detail: "../particular/동아리/피스메이커.html" },
+{ name: "피치파이프", img: "../others/logo2.png", detail: "../particular/동아리/피치파이프.html" },
+{ name: "하향", img: "../others/logo2.png", detail: "../particular/동아리/하향.html" },
+{ name: "한검", img: "../others/logo2.png", detail: "../particular/동아리/한검.html" },
+{ name: "한마지로", img: "../others/logo2.png", detail: "../particular/동아리/한마지로.html" },
+{ name: "한방스윙스", img: "../others/logo2.png", detail: "../particular/동아리/한방스윙스.html" },
+{ name: "한풍", img: "../others/logo2.png", detail: "../particular/동아리/한풍.html" },
+
+{ name: "Air Striker", img: "../others/logo2.png", detail: "../particular/동아리/Air Striker.html" },
+{ name: "BIRDIE", img: "../others/logo2.png", detail: "../particular/동아리/BIRDIE.html" },
+{ name: "FCL", img: "../others/logo2.png", detail: "../particular/동아리/FCL.html" },
+{ name: "SPIKE", img: "../others/logo2.png", detail: "../particular/동아리/SPIKE.html" },
+{ name: "물보라를 일으켜", img: "../others/logo2.png", detail: "../particular/동아리/물보라를 일으켜.html" },
+
+{ name: "B2B", img: "../others/logo2.png", detail: "../particular/동아리/B2B.html" },
+{ name: "CCC", img: "../others/logo2.png", detail: "../particular/동아리/CCC.html" },
+{ name: "CPT", img: "../others/logo2.png", detail: "../particular/동아리/CPT.html" },
+{ name: "DFC", img: "../others/logo2.png", detail: "../particular/동아리/DFC.html" },
+{ name: "EPT", img: "../others/logo2.png", detail: "../particular/동아리/EPT.html" },
+{ name: "ESF", img: "../others/logo2.png", detail: "../particular/동아리/ESF.html" },
+{ name: "Handong's HOPE 한동기도네트워크", img: "../others/logo2.png", detail: "../particular/동아리/Handong's HOPE 한동기도네트워크.html" },
+{ name: "IVF", img: "../others/logo2.png", detail: "../particular/동아리/IVF.html" },
+{ name: "JDM", img: "../others/logo2.png", detail: "../particular/동아리/JDM.html" },
+{ name: "MICAM(미캠)", img: "../others/logo2.png", detail: "../particular/동아리/MICAM(미캠).html" },
+{ name: "NIBC", img: "../others/logo2.png", detail: "../particular/동아리/NIBC.html" },
+{ name: "NWM", img: "../others/logo2.png", detail: "../particular/동아리/NWM.html" },
+{ name: "On the Path(오솔길)", img: "../others/logo2.png", detail: "../particular/동아리/On the Path(오솔길).html" },
+{ name: "Onebody Community", img: "../others/logo2.png", detail: "../particular/동아리/Onebody Community.html" },
+{ name: "SFC", img: "../others/logo2.png", detail: "../particular/동아리/SFC.html" },
+{ name: "UBF", img: "../others/logo2.png", detail: "../particular/동아리/UBF.html" },
+{ name: "YMC", img: "../others/logo2.png", detail: "../particular/동아리/YMC.html" },
+{ name: "YWAM(예수전도단)", img: "../others/logo2.png", detail: "../particular/동아리/YWAM(예수전도단).html" },
+{ name: "강물예배", img: "../others/logo2.png", detail: "../particular/동아리/강물예배.html" },
+{ name: "네비게이토 선교회", img: "../others/logo2.png", detail: "../particular/동아리/네비게이토 선교회.html" },
+{ name: "네임리스 한동(NAMELESS)", img: "../others/logo2.png", detail: "../particular/동아리/네임리스 한동(NAMELESS).html" },
+{ name: "베다니", img: "../others/logo2.png", detail: "../particular/동아리/베다니.html" },
+{ name: "북한중보기도모임", img: "../others/logo2.png", detail: "../particular/동아리/북한중보기도모임.html" },
+{ name: "비전선교단", img: "../others/logo2.png", detail: "../particular/동아리/비전선교단.html" },
+{ name: "새벽에 벌떡", img: "../others/logo2.png", detail: "../particular/동아리/새벽에 벌떡.html" },
+
+{ name: "오르", img: "../others/logo2.png", detail: "../particular/동아리/오르.html" },
+{ name: "오석공동체", img: "../others/logo2.png", detail: "../particular/동아리/오석공동체.html" },
+{ name: "챔가대(챔버&성가대)", img: "../others/logo2.png", detail: "../particular/동아리/챔가대(챔버&성가대).html" },
+{ name: "카이로스", img: "../others/logo2.png", detail: "../particular/동아리/카이로스.html" },
+{ name: "프레이즈팀", img: "../others/logo2.png", detail: "../particular/동아리/프레이즈팀.html" },
+{ name: "하심", img: "../others/logo2.png", detail: "../particular/동아리/하심.html" },
+{ name: "한동인의 끝시간", img: "../others/logo2.png", detail: "../particular/동아리/한동인의 끝시간.html" },
+
+{ name: "DIVE", img: "../others/logo2.png", detail: "../particular/동아리/DIVE.html" },
+{ name: "Dudus", img: "../others/logo2.png", detail: "../particular/동아리/Dudus.html" },
+{ name: "HAJJ", img: "../others/logo2.png", detail: "../particular/동아리/HAJJ.html" },
+{ name: "LWB", img: "../others/logo2.png", detail: "../particular/동아리/LWB.html" },
+{ name: "NFGS", img: "../others/logo2.png", detail: "../particular/동아리/NFGS.html" },
+{ name: "the answer", img: "../others/logo2.png", detail: "../particular/동아리/the answer.html" },
+{ name: "금융경제학회", img: "../others/logo2.png", detail: "../particular/동아리/금융경제학회.html" },
+{ name: "마케팅 학회 컬러즈", img: "../others/logo2.png", detail: "../particular/동아리/마케팅 학회 컬러즈.html" },
+{ name: "사회조사분석학회", img: "../others/logo2.png", detail: "../particular/동아리/사회조사분석학회.html" },
+{ name: "산업조직심리학회", img: "../others/logo2.png", detail: "../particular/동아리/산업조직심리학회.html" },
+{ name: "언로너스", img: "../others/logo2.png", detail: "../particular/동아리/언로너스.html" },
+{ name: "엔터테인먼트학회", img: "../others/logo2.png", detail: "../particular/동아리/엔터테인먼트학회.html" },
+{ name: "중독재활연구학회", img: "../others/logo2.png", detail: "../particular/동아리/중독재활연구학회.html" },
+{ name: "처크", img: "../others/logo2.png", detail: "../particular/동아리/처크.html" },
+{ name: "청지기투자학회", img: "../others/logo2.png", detail: "../particular/동아리/청지기투자학회.html" },
+{ name: "카리스", img: "../others/logo2.png", detail: "../particular/동아리/카리스.html" },
+{ name: "카존", img: "../others/logo2.png", detail: "../particular/동아리/카존.html" },
+{ name: "코칭네이버스", img: "../others/logo2.png", detail: "../particular/동아리/코칭네이버스.html" },
+{ name: "패션산업학회", img: "../others/logo2.png", detail: "../particular/동아리/패션산업학회.html" },
+{ name: "펜통", img: "../others/logo2.png", detail: "../particular/동아리/펜통.html" },
+{ name: "한,땅", img: "../others/logo2.png", detail: "../particular/동아리/한,땅.html" },
+{ name: "한가족학회", img: "../others/logo2.png", detail: "../particular/동아리/한가족학회.html" },
+{ name: "한동아시아인권법학회", img: "../others/logo2.png", detail: "../particular/동아리/한동아시아인권법학회.html" },
+{ name: "한동예술심리치료학회", img: "../others/logo2.png", detail: "../particular/동아리/한동예술심리치료학회.html" },
+{ name: "한동인지심리학회", img: "../others/logo2.png", detail: "../particular/동아리/한동인지심리학회.html" },
+
+    ];
+
+    function searchClubs() {
+      const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+      const resultsContainer = document.getElementById('searchResults');
+      resultsContainer.innerHTML = '';
+      if (!keyword) return;
+
+      const filtered = clubs.filter(club => club.name.toLowerCase().includes(keyword));
+      filtered.forEach(club => {
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = club.detail;
+        card.innerHTML = `
+          <img src="${club.img}" alt="${club.name}">
+          <div class="cardtitle">${club.name}</div>
+        `;
+        resultsContainer.appendChild(card);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', searchClubs);
+  </script>
+</body>
+
+
+</body>
+</html>
