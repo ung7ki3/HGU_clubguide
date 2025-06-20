@@ -51,7 +51,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 30px;
+      gap: 25px;
       flex-wrap: wrap;
     }
 
@@ -71,8 +71,8 @@
     .club-box {
       background-color: white;
       color: #0a1a2f;
-      width: 200px;
-      padding: 40px 20px;
+      width: 180px;
+      padding: 35px 17px;
       border-radius: 20px;
       text-align: center;
       font-size: 24px;
@@ -81,8 +81,12 @@
       position: relative;
       z-index: 1;
       text-decoration: none;
+      transition: all 0.3 ease;
     }
-
+    .club-box:hover {
+        transform: translateY(3px);
+        opacity: 90%;
+    }
     .arrow {
       display: block;
       font-size: 30px;
